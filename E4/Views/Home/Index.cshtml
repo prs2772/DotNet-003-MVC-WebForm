@@ -1,8 +1,71 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model EstadisticasViewModel
+
+@{
+  ViewData["Title"] = "Home Page";
+  AlumnoViewModel[] alumnos = Model.Alumnos;
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+  <h1 class="title-001">Calificaciones Alumnos</h1>
+  <div class="grades-table-div">
+    <form method="POST">
+      <table>
+        <thead>
+          <tr>
+            <th>BOLETA</th>
+            <th>NOMBRE</th>
+            <th>CALIFICACI&Oacute;N</th>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach (AlumnoViewModel alumno in alumnos)
+          {
+            <tr>
+              <td>@alumno.Boleta</td>
+              <td>@alumno.Nombre</td>
+              <td>
+                <select name='@($"kali{alumno.Boleta}")' id='@($"kali{alumno.Boleta}")'>
+                  @for (byte selecCali = 1; selecCali <= 10; selecCali++)
+                  {
+                    @if (selecCali == alumno.Calificacion)
+                    {
+                      <option selected value="@selecCali">@selecCali</option>
+                    }
+                    else
+                    {
+                      <option value="@selecCali">@selecCali</option>
+                    }
+                  }
+                </select>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+      <input type="submit" value="Enviar" />
+    </form>
+  </div>
+  <h2 class="title-002">Estad&iacute;sticas</h2>
+  <div class="estadisticas-table-div">
+    <table>
+      <thead>
+        <tr>
+          <th>% Aprobados</th>
+          <th>% Reprobados</th>
+          <th>Promedio</th>
+          <th>Calif. Min</th>
+          <th>Calif. Max</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>@ViewData["EstAprobados"]</td>
+          <td>@ViewData["EstReprobados"]</td>
+          <td>@ViewData["EstPromedio"]</td>
+          <td>@ViewData["EstCalMin"]</td>
+          <td>@ViewData["EstCalMax"]</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
